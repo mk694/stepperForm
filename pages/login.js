@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 function login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const uid = JSON.parse(localStorage.getItem("user"));
+    if (uid === null) {
+      router.push("/");
+    }
+  }, []);
 
   const Loginhandler = async (e) => {
     e.preventDefault();

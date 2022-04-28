@@ -29,9 +29,9 @@ export default function form() {
     phoneNumber: "",
     age: "",
     martialStatus: "",
-    creditCardNumber: "",
-    cvc: "",
-    expDate: "",
+    // creditCardNumber: "",
+    // cvc: "",
+    // expDate: "",
   });
 
   const values = {
@@ -44,9 +44,9 @@ export default function form() {
     age: data.age,
     martialStatus: data.martialStatus,
     phoneNumber: data.phoneNumber,
-    creditCardNumber: data.creditCardNumber,
-    cvc: data.cvc,
-    expDate: data.expDate,
+    // creditCardNumber: data.creditCardNumber,
+    // cvc: data.cvc,
+    // expDate: data.expDate,
   };
 
   switch (step) {
