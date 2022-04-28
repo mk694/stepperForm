@@ -11,7 +11,7 @@ function login() {
 
   useEffect(() => {
     const uid = JSON.parse(localStorage.getItem("user"));
-    if (uid === null) {
+    if (uid !== null) {
       router.push("/");
     }
   }, []);
