@@ -12,7 +12,7 @@ function header() {
     }
   }, []);
 
-  if (isLoggedIn === false) {
+  if (isLoggedIn === true) {
     return <></>;
   }
   return (

@@ -12,9 +12,6 @@ function header() {
     }
   }, []);
 
-  if (isLoggedIn === false) {
-    return <></>;
-  }
   return (
     <>
       <nav className="bg-gray-600  text-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded  dark:bg-gray-800">

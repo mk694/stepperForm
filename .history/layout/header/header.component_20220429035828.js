@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 
 function header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const uid = JSON.parse(localStorage.getItem("user"));
@@ -11,10 +10,6 @@ function header() {
       setIsLoggedIn(true);
     }
   }, []);
-
-  if (isLoggedIn === false) {
-    return <></>;
-  }
   return (
     <>
       <nav className="bg-gray-600  text-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded  dark:bg-gray-800">

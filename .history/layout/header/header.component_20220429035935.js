@@ -12,8 +12,8 @@ function header() {
     }
   }, []);
 
-  if (isLoggedIn === false) {
-    return <></>;
+  if (isLoggedIn === true) {
+    router;
   }
   return (
     <>
