@@ -1,0 +1,28 @@
+import Layout from "../layout/layout";
+import { Provider } from "react-redux";
+import "../styles/globals.css";
+import store from "../redux/store";
+
+function MyApp({ Component, pageProps }) {
+  const isAuth = useSelector((state) => state.isAuth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const uid = JSON.parse(localStorage.getItem("user"));
+
+    dispatch(LoginSuccess);
+    if (isAuth) {
+      router.push("/");
+    }
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
+  );
+}
+
+export default MyApp;
