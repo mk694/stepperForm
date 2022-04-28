@@ -9,12 +9,12 @@ import Step3 from "../components/stepper/step3.component";
 export default function form() {
   const [step, setStep] = useState(0);
   const router = useRouter();
-  // useEffect(() => {
-  //   const uid = JSON.parse(localStorage.getItem("user"));
-  //   if (uid !== null) {
-  //     router.push("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const uid = JSON.parse(localStorage.getItem("user"));
+    if (uid !== null) {
+      router.push("/");
+    }
+  }, []);
 
   let prevStep = () => {
     let stepValue = step;

@@ -1,11 +1,11 @@
-import {  useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
 
 function logout() {
   const router = useRouter();
   useEffect(() => {
     localStorage.removeItem("user");
-    router.push("/login").then(() => {
+    router.push("/login")then(() => {
       window.location.reload();
     });
   }, []);

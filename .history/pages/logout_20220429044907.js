@@ -1,4 +1,4 @@
-import {  useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
 
 function logout() {

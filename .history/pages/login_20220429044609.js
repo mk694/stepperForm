@@ -24,9 +24,7 @@ function login() {
       console.log(res.user);
       localStorage.setItem("user", JSON.stringify(res.user.uid));
 
-      router.push("/").then(() => {
-        window.location.reload();
-      });
+      router.push("/");
     } catch (error) {
       console.log(error.message);
       setErr(error.message);
@@ -80,7 +78,7 @@ function login() {
               Login
             </button>
             {err && (
-              <p className="text-sm border-2 p-4 rounded-xl text-red-500 bg-red-500/10 text-center">
+              <p className="text-sm border-2 p-10 text-red-500 bg-red-500/10 text-center">
                 {err}
               </p>
             )}

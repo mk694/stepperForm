@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 function login() {
   const [email, setEmail] = useState("");
-  const [err, setErr] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
@@ -24,12 +23,10 @@ function login() {
       console.log(res.user);
       localStorage.setItem("user", JSON.stringify(res.user.uid));
 
-      router.push("/").then(() => {
-        window.location.reload();
-      });
+      router.push("/");
+      re;
     } catch (error) {
       console.log(error.message);
-      setErr(error.message);
     }
   };
   return (
@@ -79,11 +76,6 @@ function login() {
             >
               Login
             </button>
-            {err && (
-              <p className="text-sm border-2 p-4 rounded-xl text-red-500 bg-red-500/10 text-center">
-                {err}
-              </p>
-            )}
           </div>
         </div>
       </form>

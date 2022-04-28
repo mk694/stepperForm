@@ -13,7 +13,8 @@ function login() {
   useEffect(() => {
     const uid = JSON.parse(localStorage.getItem("user"));
     if (uid !== null) {
-      router.push("/");
+      window.location.reload();
+      // router.push("/");
     }
   }, []);
 
@@ -24,9 +25,7 @@ function login() {
       console.log(res.user);
       localStorage.setItem("user", JSON.stringify(res.user.uid));
 
-      router.push("/").then(() => {
-        window.location.reload();
-      });
+      router.push("/");
     } catch (error) {
       console.log(error.message);
       setErr(error.message);

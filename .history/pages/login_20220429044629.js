@@ -24,9 +24,7 @@ function login() {
       console.log(res.user);
       localStorage.setItem("user", JSON.stringify(res.user.uid));
 
-      router.push("/").then(() => {
-        window.location.reload();
-      });
+      router.push("/");
     } catch (error) {
       console.log(error.message);
       setErr(error.message);
