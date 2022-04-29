@@ -3,28 +3,31 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
+import ReactSpinner from "../components/spinner/reactSpinner.component";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   useEffect(() => {
     const getData = async () => {
       let list = [];
       try {
+        setLoading(true);
         const querySnapshot = await getDocs(collection(db, "User"));
         querySnapshot.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
           list.push(doc.data());
 
           setData(list);
+          setLoading(false);
         });
       } catch (error) {
         console.log(error.message);
       }
     };
     getData();
-    console.log(data);
   }, []);
 
   useEffect(() => {
@@ -40,8 +43,9 @@ export default function Home() {
     });
   };
   checkData();
+
   return (
-    <div>
+    <>
       <div className="flex justify-center text-3xl items-center mt-10">
         ALL USER DOCUMENTS
       </div>
@@ -91,9 +95,10 @@ export default function Home() {
                 </tr>
               );
             })}
+            )
           </tbody>
         </table>
       </main>
-    </div>
+    </>
   );
 }
