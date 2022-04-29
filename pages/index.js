@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
-import ReactSpinner from "../components/spinner/reactSpinner.component";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import ExportToExcel from "../components/Excel/ExportToExcel.component";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -17,14 +18,14 @@ export default function Home() {
         setLoading(true);
         const querySnapshot = await getDocs(collection(db, "User"));
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
-          list.push(doc.data());
+          list.push({ ...doc.data(), id: doc.id });
 
           setData(list);
           setLoading(false);
         });
       } catch (error) {
         console.log(error.message);
+        alert(error.message);
       }
     };
     getData();
@@ -37,20 +38,24 @@ export default function Home() {
     }
   }, []);
 
-  const checkData = () => {
-    return data.map((doc) => {
-      console.log("doc", doc.country);
-    });
-  };
-  checkData();
-
   return (
     <>
       <div className="flex justify-center text-3xl items-center mt-10">
         ALL USER DOCUMENTS
       </div>
-      <main className="flex justify-center items-center pt-10">
-        <table className="text-sm text-left text-gray-500 dark:text-gray-400 ">
+      <main className="flex justify-center flex-col items-center pt-10">
+        <ReactHTMLTableToExcel
+          id="test-table-xls-button"
+          className="bg-green-700 text-white p-4 rounded-md mb-3"
+          table="table-to-xls"
+          filename="tablexls"
+          sheet="tablexls"
+          buttonText="Download as XLS"
+        />
+        <table
+          id="table-to-xls"
+          className="text-sm text-left text-gray-500 dark:text-gray-400 "
+        >
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-4 py-3">
@@ -74,13 +79,16 @@ export default function Home() {
               <th scope="col" className="px-4 py-3">
                 Postal Code
               </th>
+              <th scope="col" className="px-4 py-3">
+                Export to Excel
+              </th>
             </tr>
           </thead>
           <tbody>
             {data.map((doc, i, docs) => {
               return (
                 <tr
-                  key={docs.id}
+                  key={doc.id}
                   className="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
                 >
                   <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
@@ -92,6 +100,9 @@ export default function Home() {
                   <td className="px-6 py-4">{doc.city}</td>
                   <td className="px-6 py-4">{doc.martialStatus}</td>
                   <td className="px-6 py-4">{doc.postalCode}</td>
+                  <td className="px-6 py-4">
+                    <ExportToExcel doc={[doc]} />
+                  </td>
                 </tr>
               );
             })}

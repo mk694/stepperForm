@@ -1,16 +1,15 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Layout from "../layout/layout";
-
 import "../styles/globals.css";
+// import { store } from "../redux/store.js";
+// import { AuthContext } from "../authContext/AuthContext";
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-
   return (
+    // <AuthContext>
     <Layout>
       <Component {...pageProps} />
     </Layout>
+    // </AuthContext>
   );
 }
 
