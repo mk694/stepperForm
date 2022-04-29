@@ -1,13 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Step1({ nextStep, handleChange, values }) {
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if (values.firstName === "" || values.lastName === "") {
+      setDisable(true);
+    } else setDisable(false);
+  }, [values]);
+
   const Continue = (e) => {
     e.preventDefault();
     nextStep();
   };
   return (
-    <section>
-      <h1 className="text-center text-4xl uppercase font-bold p-10">Step 1</h1>
+    <>
+      <p className="text-center text-4xl uppercase font-bold p-10">Step 1</p>
       <div className="flex justify-center w-full">
         <div className="mb-4">
           <div className="mb-6">
@@ -45,13 +53,14 @@ export default function Step1({ nextStep, handleChange, values }) {
             />
           </div>
           <button
-            className="bg-green-500 w-full py-2 my-4 text-white rounded-md"
+            disabled={disable}
+            className="bg-green-500 w-full py-2 my-4 disabled:bg-gray-400 text-white rounded-md"
             onClick={Continue}
           >
             Next
           </button>
         </div>
       </div>
-    </section>
+    </>
   );
 }

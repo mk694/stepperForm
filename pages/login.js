@@ -32,6 +32,7 @@ function login() {
         setLoading(false);
       });
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
       setErr(error.message);
     }
@@ -43,7 +44,7 @@ function login() {
           <ReactSpinner />
         </div>
       ) : (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center">
           <form onSubmit={Loginhandler}>
             <h1 className="text-center text-4xl uppercase font-bold p-10">
               Login

@@ -10,25 +10,9 @@ import withAuth from "../hoc/WithAuth";
 const form = () => {
   const [step, setStep] = useState(0);
   const [mFile, setMFile] = useState();
+  const [error, setError] = useState(false);
   const router = useRouter();
 
-  let prevStep = () => {
-    let stepValue = step;
-    setStep(stepValue - 1);
-  };
-  let nextStep = () => {
-    let stepValue = step;
-    setStep(stepValue + 1);
-  };
-  let handleChange = (input) => (e) => {
-    setData({ ...values, [input]: e.target.value });
-  };
-  let fileChange = (input) => (e) => {
-    setData({ ...values, [input]: e.target.value });
-    const file = e.target[0]?.files[0];
-    if (!file) return;
-    setMFile(file);
-  };
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -41,6 +25,26 @@ const form = () => {
     martialStatus: "",
     file: "",
   });
+
+  let prevStep = () => {
+    let stepValue = step;
+    setStep(stepValue - 1);
+  };
+  let nextStep = () => {
+    let stepValue = step;
+    setStep(stepValue + 1);
+  };
+  let handleChange = (input) => (e) => {
+    // if (e.target.value[input] !== "") {
+    setData({ ...values, [input]: e.target.value });
+  };
+  let fileChange = (input) => (e) => {
+    setData({ ...values, [input]: e.target.value });
+
+    const file = e.target[0]?.files[0];
+    if (!file) return;
+    setMFile(file);
+  };
 
   const values = {
     firstName: data.firstName,
@@ -58,51 +62,41 @@ const form = () => {
   switch (step) {
     case 0:
       return (
-        <>
-          <Step1
-            values={values}
-            handleChange={handleChange}
-            nextStep={nextStep}
-          />
-          {/* {JSON.stringify(data)} */}
-        </>
+        <Step1
+          values={values}
+          handleChange={handleChange}
+          nextStep={nextStep}
+        />
       );
     case 1:
       return (
-        <>
-          <Step2
-            values={values}
-            handleChange={handleChange}
-            prevStep={prevStep}
-            nextStep={nextStep}
-          />
-          {/* {JSON.stringify(data)} */}
-        </>
+        <Step2
+          values={values}
+          handleChange={handleChange}
+          prevStep={prevStep}
+          nextStep={nextStep}
+        />
       );
     case 2:
       return (
-        <>
-          <Step3
-            values={values}
-            handleChange={handleChange}
-            prevStep={prevStep}
-            nextStep={nextStep}
-          />
-        </>
+        <Step3
+          values={values}
+          handleChange={handleChange}
+          prevStep={prevStep}
+          nextStep={nextStep}
+        />
       );
     default:
       return (
-        <>
-          <Confirmation
-            values={values}
-            handleChange={handleChange}
-            prevStep={prevStep}
-            nextStep={nextStep}
-            fileChange={fileChange}
-            file={mFile}
-          />
-          {JSON.stringify(data)}
-        </>
+        <Confirmation
+          values={values}
+          data={data}
+          handleChange={handleChange}
+          prevStep={prevStep}
+          nextStep={nextStep}
+          fileChange={fileChange}
+          file={mFile}
+        />
       );
   }
 };

@@ -1,29 +1,25 @@
 import { db, storage } from "../../firebase/config";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { ref, uploadBytesResumable } from "firebase/storage";
 import { useState } from "react";
 
 export default function Confirmation({
   prevStep,
-  nextStep,
   file,
   handleChange,
   fileChange,
-
   values,
+  data,
 }) {
   const [progresspercent, setProgresspercent] = useState(0);
 
   const router = useRouter();
 
   const saveData = async () => {
-    console.log(values);
     try {
-      const fileRef = ref(storage, "users");
-      await addDoc(collection(db, "User"), values);
       //upload file
-      const storageRef = ref(storage, values.file);
+      const storageRef = ref(storage, data.file);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
@@ -37,10 +33,13 @@ export default function Confirmation({
           alert(error);
         }
       );
-      // route
+      await addDoc(collection(db, "User"), data);
+
       router.push("/");
+
+      // route
     } catch (error) {
-      console.log(error);
+      alert("Upload file");
     }
   };
 
@@ -49,11 +48,11 @@ export default function Confirmation({
     prevStep();
   };
   return (
-    <section>
-      <h1 className="text-center text-4xl uppercase font-bold p-10">Confirm</h1>
-      <div className="flex justify-center  ">
-        <div className="mb-4 flex flex-wrap flex-row  ">
-          <div className="mb-6 basis-1/2  ">
+    <>
+      <p className="text-center text-4xl uppercase font-bold p-10">Confirm</p>
+      <div className="flex justify-center items-center ">
+        <div className="mb-4 flex justify-center items-center flex-col   ">
+          <div className="mb-6   ">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="firstName"
@@ -62,7 +61,7 @@ export default function Confirmation({
             </label>
             <input
               disabled
-              className="shadow appearance-none border rounded w-full py-2 px-3
+              className="shadow appearance-none border rounded  py-2 px-3
                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="country"
               type="text"
@@ -71,7 +70,7 @@ export default function Confirmation({
               defaultValue={values.firstName}
             />
           </div>
-          <div className="mb-6 basis-1/2">
+          <div className="mb-6 ">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="lastName"
@@ -80,7 +79,7 @@ export default function Confirmation({
             </label>
             <input
               disabled
-              className="shadow appearance-none border rounded w-full py-2 px-3
+              className="shadow appearance-none border rounded  py-2 px-3
                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="country"
               type="text"
@@ -90,7 +89,7 @@ export default function Confirmation({
             />
           </div>
 
-          <div className="mb-6 basis-1/2">
+          <div className="mb-6 ">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="country"
@@ -99,7 +98,7 @@ export default function Confirmation({
             </label>
             <input
               disabled
-              className="shadow appearance-none border rounded w-full py-2 px-3
+              className="shadow appearance-none border rounded  py-2 px-3
                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="martialStatus"
               type="text"
@@ -108,7 +107,7 @@ export default function Confirmation({
               defaultValue={values.martialStatus}
             />
           </div>
-          <div className="mb-6 basis-1/2">
+          <div className="mb-6 ">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="city"
@@ -117,7 +116,7 @@ export default function Confirmation({
             </label>
             <input
               disabled
-              className="shadow appearance-none border rounded w-full py-2 px-3
+              className="shadow appearance-none border rounded  py-2 px-3
                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="country"
               type="number"
@@ -126,7 +125,7 @@ export default function Confirmation({
               defaultValue={values.age}
             />
           </div>
-          <div className="mb-6 basis-1/2">
+          <div className="mb-6 ">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="phoneNumber"
@@ -135,7 +134,7 @@ export default function Confirmation({
             </label>
             <input
               disabled
-              className="shadow appearance-none border rounded w-full py-2 px-3 
+              className="shadow appearance-none border rounded  py-2 px-3 
                text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="phoneNumber"
               type="phone"
@@ -151,8 +150,9 @@ export default function Confirmation({
             >
               Upload Image
             </label>
+
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3
+              className="shadow appearance-none border rounded  py-1 px-3
                  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="file"
               type="file"
@@ -160,25 +160,25 @@ export default function Confirmation({
               onChange={fileChange("file")}
               defaultValue={values.file}
             />
-            {progresspercent}
           </div>
+          <span> {progresspercent}%</span>
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center w-full ">
+      <div className="flex flex-wrap justify-center  ">
         <button
-          className="bg-red-500 w-1/3  py-2 my-4 text-white rounded-md"
+          className="bg-red-500 px-10 m-10 py-2 my-4 text-white rounded-md"
           onClick={Previous}
         >
           Back
         </button>
         <button
-          className="bg-green-500 w-1/3  py-2 my-4 text-white rounded-md"
+          className="bg-green-500 px-10 m-10  py-2 my-4 text-white rounded-md"
           onClick={saveData}
         >
           Finish!
         </button>
       </div>
-    </section>
+    </>
   );
 }

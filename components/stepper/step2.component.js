@@ -1,4 +1,20 @@
+import { useEffect, useState } from "react";
+
 export default function Step2({ prevStep, nextStep, handleChange, values }) {
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if (
+      values.country === "" ||
+      values.city === "" ||
+      values.country === "" ||
+      values.postalCode === "" ||
+      values.address === ""
+    ) {
+      setDisable(true);
+    } else setDisable(false);
+  }, [values]);
+
   const Continue = (e) => {
     e.preventDefault();
     nextStep();
@@ -8,8 +24,8 @@ export default function Step2({ prevStep, nextStep, handleChange, values }) {
     prevStep();
   };
   return (
-    <section>
-      <h1 className="text-center text-4xl uppercase font-bold p-10">Step 2</h1>
+    <>
+      <p className="text-center text-4xl uppercase font-bold p-10">Step 2</p>
       <div className="flex justify-center w-full">
         <div className="mb-4">
           <div className="mb-6">
@@ -88,7 +104,8 @@ export default function Step2({ prevStep, nextStep, handleChange, values }) {
               Back
             </button>
             <button
-              className="bg-green-500 basis-1/2  py-2 my-4 text-white rounded-md"
+              disabled={disable}
+              className="bg-green-500 basis-1/2 disabled:bg-gray-400  py-2 my-4 text-white rounded-md"
               onClick={Continue}
             >
               Next
@@ -96,6 +113,6 @@ export default function Step2({ prevStep, nextStep, handleChange, values }) {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }

@@ -5,7 +5,6 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import ExportToExcel from "../components/Excel/ExportToExcel.component";
-import Reacspinner from "../components/spinner/reactSpinner.component";
 import ReactSpinner from "../components/spinner/reactSpinner.component";
 
 export default function Home() {
@@ -26,6 +25,7 @@ export default function Home() {
           setLoading(false);
         });
       } catch (error) {
+        setLoading(false);
         console.log(error.message);
         alert(error.message);
       }
@@ -99,14 +99,12 @@ export default function Home() {
                       key={doc.id}
                       className="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
                     >
-                      <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                        {doc.firstName}
-                      </td>
+                      <td className="px-6 py-4">{doc.firstName}</td>
                       <td className="px-6 py-4">{doc.lastName}</td>
                       <td className="px-6 py-4">{doc.address}</td>
-                      <td className="px-6 py-4">{doc.country}</td>
                       <td className="px-6 py-4">{doc.city}</td>
-                      <td className="px-6 py-4">{doc.martialStatus}</td>
+                      <td className="px-6 py-4">{doc.country}</td>
+                      <td className="px-6 py-4">{doc.phoneNumber}</td>
                       <td className="px-6 py-4">{doc.postalCode}</td>
                       <td className="px-6 py-4">
                         <ExportToExcel doc={[doc]} />
