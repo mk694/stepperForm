@@ -7,7 +7,7 @@ export default function Step1({ nextStep, handleChange, values }) {
   };
   return (
     <section>
-      <h1 className="text-center text-4xl uppercase font-bold p-10">step 1</h1>
+      <h1 className="text-center text-4xl uppercase font-bold p-10">Step 1</h1>
       <div className="flex justify-center w-full">
         <div className="mb-4">
           <div className="mb-6">

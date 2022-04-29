@@ -5,16 +5,12 @@ import Confirmation from "../components/stepper/confirmation.component";
 import Step1 from "../components/stepper/step1.component";
 import Step2 from "../components/stepper/step2.component";
 import Step3 from "../components/stepper/step3.component";
+import withAuth from "../hoc/WithAuth";
 
-export default function form() {
+const form = () => {
   const [step, setStep] = useState(0);
+  const [mFile, setMFile] = useState();
   const router = useRouter();
-  // useEffect(() => {
-  //   const uid = JSON.parse(localStorage.getItem("user"));
-  //   if (uid !== null) {
-  //     router.push("/");
-  //   }
-  // }, []);
 
   let prevStep = () => {
     let stepValue = step;
@@ -27,7 +23,12 @@ export default function form() {
   let handleChange = (input) => (e) => {
     setData({ ...values, [input]: e.target.value });
   };
-
+  let fileChange = (input) => (e) => {
+    setData({ ...values, [input]: e.target.value });
+    const file = e.target[0]?.files[0];
+    if (!file) return;
+    setMFile(file);
+  };
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -38,9 +39,7 @@ export default function form() {
     phoneNumber: "",
     age: "",
     martialStatus: "",
-    // creditCardNumber: "",
-    // cvc: "",
-    // expDate: "",
+    file: "",
   });
 
   const values = {
@@ -53,9 +52,7 @@ export default function form() {
     age: data.age,
     martialStatus: data.martialStatus,
     phoneNumber: data.phoneNumber,
-    // creditCardNumber: data.creditCardNumber,
-    // cvc: data.cvc,
-    // expDate: data.expDate,
+    file: data.file,
   };
 
   switch (step) {
@@ -91,20 +88,22 @@ export default function form() {
             prevStep={prevStep}
             nextStep={nextStep}
           />
-          {/* {JSON.stringify(data)} */}
         </>
       );
     default:
       return (
         <>
-          {" "}
           <Confirmation
             values={values}
             handleChange={handleChange}
             prevStep={prevStep}
             nextStep={nextStep}
+            fileChange={fileChange}
+            file={mFile}
           />
+          {JSON.stringify(data)}
         </>
       );
   }
-}
+};
+export default withAuth(form);

@@ -1,20 +1,43 @@
-import { db } from "../../firebase/config";
+import { db, storage } from "../../firebase/config";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { useState } from "react";
 
 export default function Confirmation({
   prevStep,
   nextStep,
+  file,
   handleChange,
+  fileChange,
+
   values,
 }) {
-  // const dbInstance = collection(db, "User");
+  const [progresspercent, setProgresspercent] = useState(0);
+
   const router = useRouter();
 
   const saveData = async () => {
     console.log(values);
     try {
+      const fileRef = ref(storage, "users");
       await addDoc(collection(db, "User"), values);
+      //upload file
+      const storageRef = ref(storage, values.file);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgresspercent(progress);
+        },
+        (error) => {
+          alert(error);
+        }
+      );
+      // route
       router.push("/");
     } catch (error) {
       console.log(error);
@@ -27,7 +50,7 @@ export default function Confirmation({
   };
   return (
     <section>
-      <h1 className="text-center text-4xl uppercase font-bold p-10">step 3</h1>
+      <h1 className="text-center text-4xl uppercase font-bold p-10">Confirm</h1>
       <div className="flex justify-center  ">
         <div className="mb-4 flex flex-wrap flex-row  ">
           <div className="mb-6 basis-1/2  ">
@@ -106,7 +129,7 @@ export default function Confirmation({
           <div className="mb-6 basis-1/2">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="postalCode"
+              htmlFor="phoneNumber"
             >
               Phone Number
             </label>
@@ -120,6 +143,24 @@ export default function Confirmation({
               onChange={handleChange("phoneNumber")}
               defaultValue={values.phoneNumber}
             />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="postalCode"
+            >
+              Upload Image
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3
+                 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="file"
+              type="file"
+              placeholder="upload image"
+              onChange={fileChange("file")}
+              defaultValue={values.file}
+            />
+            {progresspercent}
           </div>
         </div>
       </div>

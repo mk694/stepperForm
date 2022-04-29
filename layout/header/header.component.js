@@ -17,16 +17,16 @@ function header() {
   }
   return (
     <>
-      <nav className="bg-gray-600  text-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded  dark:bg-gray-800">
+      <nav className="bg-gray-600  text-slate-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm shadow-lg  dark:bg-gray-800">
         <div className="container flex flex-wrap justify-around items-center mx-auto">
           <div>
             <Link href="/form">
-              <a className="bg-slate-800  text-slate-50 px-2 py-1 rounded hover:bg-orange-500 ">
+              <a className="bg-slate-800  text-slate-50 px-2 py-1 rounded hover:bg-orange-600 ">
                 Fill form
               </a>
             </Link>
           </div>
-          <div className="bg-slate-800 px-2 py-1 rounded hover:bg-orange-800 mx-9 ">
+          <div className="bg-slate-800 px-2 py-1 rounded hover:bg-blue-800 mx-9 ">
             <Link href="/">
               <a className="">Home</a>
             </Link>
